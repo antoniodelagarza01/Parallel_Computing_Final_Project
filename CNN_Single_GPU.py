@@ -40,8 +40,8 @@ class SimpleCNN(nn.Module):
         super(SimpleCNN, self).__init__()
         
         # Convolutional layers
-        self.conv1 = nn.Conv2d(3, 32, kernel_size=3, padding=1)
-        self.conv2 = nn.Conv2d(32, 64, kernel_size=3, padding=1)
+        self.conv1 = nn.Conv2d(3, 32, kernel_size=3, padding=1) # (32, 32, 32) -> (32, 16, 16) after pooling
+        self.conv2 = nn.Conv2d(32, 64, kernel_size=3, padding=1) # (64, 16, 16) -> (64, 8, 8) after pooling
         
         # Pooling
         self.pool = nn.MaxPool2d(2, 2)
@@ -110,6 +110,8 @@ with torch.no_grad():
         _, predicted = torch.max(outputs.data, 1)
         
         total += labels.size(0)
+        
         correct += (predicted == labels).sum().item()
 
+print(f"We got {correct} out of {total} correct.")
 print(f"Accuracy: {100 * correct / total:.2f}%")
